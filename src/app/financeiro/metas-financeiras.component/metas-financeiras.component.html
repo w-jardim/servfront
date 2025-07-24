@@ -1,0 +1,202 @@
+<div class="metas-container">
+  <!-- Cabeçalho da página -->
+      <div class="page-header">
+        <div class="header-left">
+          <h1>
+            <i class="fas fa-bullseye"></i>
+            Metas Financeiras
+          </h1>
+          <p class="page-description">
+            Crie e acompanhe suas metas financeiras pessoais
+          </p>
+        </div>
+        
+        <div class="header-actions">
+          <button class="btn btn-secondary" routerLink="/financeiro">
+            <i class="fas fa-arrow-left"></i>
+            Voltar
+          </button>
+          
+          <button class="btn btn-primary" (click)="abrirFormulario()">
+            <i class="fas fa-plus"></i>
+            Nova Meta
+          </button>
+        </div>
+      </div>
+
+      <!-- Lista de Metas -->
+      <div class="metas-grid" *ngIf="metas.length > 0">
+        <div class="meta-card" *ngFor="let meta of metas">
+          <div class="meta-header">
+            <div class="meta-info">
+              <h3>{{ meta.titulo }}</h3>
+              <span class="meta-policial">{{ meta.policial }}</span>
+            </div>
+            <div class="meta-actions">
+              <button class="btn btn-outline btn-sm" (click)="editarMeta(meta)" title="Editar">
+                <i class="fas fa-edit"></i>
+                Editar
+              </button>
+              <button class="btn btn-outline btn-sm" (click)="excluirMeta(meta.id)" title="Excluir">
+                <i class="fas fa-trash"></i>
+                Excluir
+              </button>
+            </div>
+          </div>
+
+          <div class="meta-status">
+            <span class="status-badge" [class]="'status-' + meta.status">
+              {{ meta.status | titlecase }}
+            </span>
+            <span class="meta-deadline">
+              Prazo: {{ meta.prazoMeta | date:'dd/MM/yyyy' }}
+            </span>
+          </div>
+
+          <div class="meta-progress">
+            <div class="progress-header">
+              <span class="progress-current">{{ meta.valorAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
+              <span class="progress-target">{{ meta.valorMeta | currency:'BRL':'symbol':'1.2-2' }}</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="(meta.valorAtual / meta.valorMeta) * 100"></div>
+            </div>
+            <div class="progress-footer">
+              <span class="progress-percent">{{ ((meta.valorAtual / meta.valorMeta) * 100) | number:'1.1-1' }}%</span>
+              <span class="progress-services">{{ meta.servicosRealizados }} serviços realizados</span>
+            </div>
+          </div>
+
+          <div class="meta-projection" *ngIf="meta.status === 'ativa'">
+            <div class="projection-item">
+              <i class="fas fa-clock"></i>
+              <span>Faltam {{ calcularProgresso(meta).servicosRestantes }} serviços</span>
+            </div>
+            <div class="projection-item">
+              <i class="fas fa-dollar-sign"></i>
+              <span>{{ calcularProgresso(meta).valorRestante | currency:'BRL':'symbol':'1.2-2' }} restantes</span>
+            </div>
+          </div>
+
+          <div class="meta-services" *ngIf="meta.tiposServicoPreferidos.length > 0">
+            <h4>Serviços Preferidos:</h4>
+            <div class="services-tags">
+              <span class="service-tag" *ngFor="let tipoId of meta.tiposServicoPreferidos">
+                {{ getTipoServicoNome(tipoId) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado vazio -->
+      <div class="empty-state" *ngIf="metas.length === 0">
+        <div class="empty-icon">
+          <i class="fas fa-bullseye"></i>
+        </div>
+        <h3>Nenhuma meta criada</h3>
+        <p>Crie sua primeira meta financeira e comece a acompanhar seu progresso!</p>
+        <button class="btn btn-primary" (click)="abrirFormulario()">
+          <i class="fas fa-plus"></i>
+          Criar Primeira Meta
+        </button>
+      </div>
+
+  <!-- Modal de Formulário -->
+  <div class="modal-overlay" *ngIf="mostrarFormulario" (click)="fecharFormularioSemSalvar()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>
+          <i class="fas fa-bullseye"></i>
+          {{ modoEdicao ? 'Editar Meta' : 'Nova Meta' }}
+        </h2>
+        <button class="btn-close" (click)="fecharFormularioSemSalvar()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form (ngSubmit)="salvarMeta()" #metaForm="ngForm">
+          <div class="form-group">
+            <label for="titulo">Título da Meta *</label>
+            <input 
+              type="text" 
+              id="titulo" 
+              [(ngModel)]="novaMeta.titulo" 
+              name="titulo"
+              placeholder="Ex: Comprar uma moto"
+              required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="valorMeta">Valor da Meta *</label>
+              <input 
+                type="number" 
+                id="valorMeta" 
+                [(ngModel)]="novaMeta.valorMeta" 
+                name="valorMeta"
+                placeholder="15000"
+                min="1"
+                required>
+            </div>
+
+            <div class="form-group">
+              <label for="prazoMeta">Prazo *</label>
+              <input 
+                type="date" 
+                id="prazoMeta" 
+                [(ngModel)]="novaMeta.prazoMeta" 
+                name="prazoMeta"
+                required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tipos de Serviço Preferidos</label>
+            <p class="form-hint">Selecione os tipos de serviços que pretende fazer para alcançar esta meta</p>
+            
+            <div class="checkbox-grid">
+              <div class="checkbox-item" *ngFor="let tipo of tiposServicoDisponiveis">
+                <label class="checkbox-label">
+                  <input 
+                    type="checkbox" 
+                    [checked]="novaMeta.tiposServicoPreferidos.includes(tipo.id)"
+                    (change)="toggleTipoServico(tipo.id)">
+                  <span class="checkbox-custom"></span>
+                  <div class="checkbox-content">
+                    <span class="tipo-nome">{{ tipo.nome }}</span>
+                    <span class="tipo-valor">R$ {{ tipo.valor }}/hora</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="projection-info" *ngIf="novaMeta.valorMeta > 0 && novaMeta.tiposServicoPreferidos.length > 0">
+            <h4>📊 Projeção Automática</h4>
+            <div class="projection-details">
+              <div class="projection-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Aproximadamente {{ calcularServicosNecessarios() }} serviços necessários</span>
+              </div>
+              <div class="projection-item">
+                <i class="fas fa-clock"></i>
+                <span>Assumindo 6 horas por serviço em média</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" (click)="fecharFormularioSemSalvar()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="!metaForm.valid">
+              <i class="fas fa-save"></i>
+              {{ modoEdicao ? 'Salvar Alterações' : 'Criar Meta' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,423 @@
+<div class="dashboard-container">
+  <!-- Cabeçalho da página -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>
+        <i class="fas fa-home"></i>
+        Dashboard
+      </h1>
+      <p class="page-description">
+        Painel de controle e visão geral do sistema
+      </p>
+    </div>
+  </div>
+
+  <!-- Grid principal do dashboard -->
+  <div class="dashboard-grid">
+    
+    <!-- Seção 1: Perfil do Usuário -->
+    <div class="dashboard-card perfil-card">
+      <div class="card-header">
+        <h2>
+          <i class="fas fa-user"></i>
+          Meu Perfil
+        </h2>
+        <button class="btn btn-outline btn-sm" 
+                (click)="editarPerfil()" 
+                *ngIf="!editandoPerfil">
+          <i class="fas fa-edit"></i>
+          Editar
+        </button>
+      </div>
+
+      <div class="perfil-content">
+        <!-- Avatar -->
+        <div class="avatar-section">
+          <div class="avatar-container" *ngIf="!editandoPerfil">
+            <img [src]="perfilUsuario.avatar || '/assets/default-avatar.png'" 
+                 alt="Avatar" 
+                 class="avatar-image"
+                 *ngIf="perfilUsuario.avatar">
+            <div class="avatar-placeholder" *ngIf="!perfilUsuario.avatar">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          
+          <!-- Upload de avatar durante edição -->
+          <div class="avatar-upload" *ngIf="editandoPerfil">
+            <div class="avatar-preview">
+              <img [src]="perfilUsuario.avatar || '/assets/default-avatar.png'" 
+                   alt="Avatar Preview" 
+                   *ngIf="perfilUsuario.avatar">
+              <div class="avatar-placeholder" *ngIf="!perfilUsuario.avatar">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+            <div class="upload-actions">
+              <label class="btn btn-outline btn-sm">
+                <i class="fas fa-upload"></i>
+                Escolher Foto
+                <input type="file" 
+                       accept="image/*" 
+                       (change)="onFileSelected($event)"
+                       style="display: none">
+              </label>
+              <button class="btn btn-outline btn-sm" 
+                      (click)="removeAvatar()"
+                      *ngIf="perfilUsuario.avatar">
+                <i class="fas fa-trash"></i>
+                Remover
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dados do perfil -->
+        <div class="perfil-dados">
+          <div class="form-group" *ngIf="!editandoPerfil">
+            <label>Nome Completo:</label>
+            <span class="valor">{{ perfilUsuario.nomeCompleto || 'Não informado' }}</span>
+          </div>
+          
+          <div class="form-group" *ngIf="editandoPerfil">
+            <label for="nomeCompleto">Nome Completo *</label>
+            <input type="text" 
+                   id="nomeCompleto"
+                   [(ngModel)]="perfilUsuario.nomeCompleto"
+                   placeholder="Digite seu nome completo"
+                   class="form-control">
+          </div>
+
+          <div class="form-group" *ngIf="!editandoPerfil">
+            <label>Nome de Escala:</label>
+            <span class="valor">{{ perfilUsuario.nomeEscala || 'Não informado' }}</span>
+          </div>
+          
+          <div class="form-group" *ngIf="editandoPerfil">
+            <label for="nomeEscala">Nome de Escala (opcional)</label>
+            <input type="text" 
+                   id="nomeEscala"
+                   [(ngModel)]="perfilUsuario.nomeEscala"
+                   placeholder="Apelido ou nome usado na escala"
+                   class="form-control">
+          </div>
+
+          <div class="form-group" *ngIf="!editandoPerfil">
+            <label>Posto/Graduação:</label>
+            <span class="valor">{{ perfilUsuario.posto || 'Não informado' }}</span>
+          </div>
+          
+          <div class="form-group" *ngIf="editandoPerfil">
+            <label for="posto">Posto/Graduação *</label>
+            <select id="posto" 
+                    [(ngModel)]="perfilUsuario.posto"
+                    class="form-control">
+              <option value="">Selecione...</option>
+              <option *ngFor="let posto of postos" [value]="posto">{{ posto }}</option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="!editandoPerfil">
+            <label>Unidade:</label>
+            <span class="valor">{{ perfilUsuario.unidade || 'Não informado' }}</span>
+          </div>
+          
+          <div class="form-group" *ngIf="editandoPerfil">
+            <label for="unidade">Unidade *</label>
+            <input type="text" 
+                   id="unidade"
+                   [(ngModel)]="perfilUsuario.unidade"
+                   placeholder="Ex: 1º BPM, COPOM, etc."
+                   class="form-control">
+          </div>
+
+          <div class="form-group" *ngIf="!editandoPerfil">
+            <label>Salário Base:</label>
+            <span class="valor">
+              {{ perfilUsuario.salarioBase ? (perfilUsuario.salarioBase | currency:'BRL':'symbol':'1.2-2') : 'Não informado' }}
+            </span>
+          </div>
+          
+          <div class="form-group" *ngIf="editandoPerfil">
+            <label for="salarioBase">Salário Base (opcional)</label>
+            <input type="number" 
+                   id="salarioBase"
+                   [(ngModel)]="perfilUsuario.salarioBase"
+                   placeholder="Ex: 3200.00"
+                   min="0"
+                   step="0.01"
+                   class="form-control">
+            <small class="form-hint">Necessário para exibir informações de serviço ordinário</small>
+          </div>
+
+          <!-- Botões de ação durante edição -->
+          <div class="form-actions" *ngIf="editandoPerfil">
+            <button class="btn btn-primary" (click)="salvarPerfil()">
+              <i class="fas fa-save"></i>
+              Salvar Perfil
+            </button>
+            <button class="btn btn-secondary" (click)="cancelarEdicao()">
+              <i class="fas fa-times"></i>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 2: Calendário -->
+    <div class="dashboard-card calendario-card">
+      <div class="card-header">
+        <h2>
+          <i class="fas fa-calendar-alt"></i>
+          Calendário de Serviços
+        </h2>
+        <div class="calendario-navegacao">
+          <button class="btn btn-outline btn-sm" (click)="navegarMes(-1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span class="mes-atual">{{ getNomeMes() | titlecase }}</span>
+          <button class="btn btn-outline btn-sm" (click)="navegarMes(1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="calendario-container">
+        <div class="calendario-header">
+          <div class="dia-semana">Dom</div>
+          <div class="dia-semana">Seg</div>
+          <div class="dia-semana">Ter</div>
+          <div class="dia-semana">Qua</div>
+          <div class="dia-semana">Qui</div>
+          <div class="dia-semana">Sex</div>
+          <div class="dia-semana">Sáb</div>
+        </div>
+
+        <div class="calendario-grid">
+          <div class="dia-calendario" 
+               *ngFor="let dia of diasCalendario"
+               [class.com-servicos]="dia.temServicos"
+               [class.com-conflito]="dia.temConflito"
+               [ngStyle]="getEstiloDia(dia)"
+               [title]="getDetalhesTooltip(dia)">
+            <span class="numero-dia">{{ dia.data.getDate() }}</span>
+            <div class="valor-dia" *ngIf="dia.temServicos">
+              <i class="fas fa-dollar-sign"></i>
+              {{ dia.valorTotal | currency:'BRL':'symbol':'1.0-0' }}
+            </div>
+            <div class="indicadores-servico" *ngIf="dia.temServicos">
+              <div class="tipo-servico" 
+                   *ngFor="let tipo of dia.tiposServicos"
+                   [style.background-color]="coresServicos[tipo]"
+                   [title]="formatarTipoServico(tipo)">
+              </div>
+              <div class="icone-conflito" *ngIf="dia.temConflito">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legenda de Cores -->
+        <div class="calendario-legenda">
+          <h4>Legenda:</h4>
+          <div class="legenda-grid">
+            <div class="legenda-item" *ngFor="let item of getLegendaCores()">
+              <div class="cor-exemplo" [style.background-color]="item.cor"></div>
+              <span class="cor-label">{{ item.label }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 3: Resumo Financeiro -->
+    <div class="dashboard-card resumo-card">
+      <div class="card-header">
+        <h2>
+          <i class="fas fa-chart-bar"></i>
+          Resumo Financeiro
+        </h2>
+        <span class="periodo">{{ getNomeMes() | titlecase }}</span>
+      </div>
+
+      <div class="resumo-grid">
+        <!-- Card Ordinário (condicional) -->
+        <div class="resumo-item ordinario" 
+             *ngIf="perfilUsuario.configuracoes.exibirValorOrdinario && resumoFinanceiro.ordinario?.exibir"
+             [style.opacity]="getOpacidadeOrdinario()">
+          <div class="resumo-icon">
+            <i class="fas fa-calendar-week"></i>
+          </div>
+          <div class="resumo-content">
+            <h3>{{ resumoFinanceiro.ordinario?.salarioBase | currency:'BRL':'symbol':'1.2-2' }}</h3>
+            <p>Ordinário</p>
+            <small>{{ getTextoOrdinario() }}</small>
+          </div>
+        </div>
+
+        <!-- Card Ordinário (texto apenas) -->
+        <div class="resumo-item ordinario-info" 
+             *ngIf="!perfilUsuario.configuracoes.exibirValorOrdinario"
+             [style.opacity]="getOpacidadeOrdinario()">
+          <div class="resumo-icon">
+            <i class="fas fa-calendar-week"></i>
+          </div>
+          <div class="resumo-content">
+            <h3>{{ getTextoOrdinario() }}</h3>
+            <p>Serviço Ordinário</p>
+            <small>Não gera valor adicional</small>
+          </div>
+        </div>
+
+        <!-- Card RAS Voluntário -->
+        <div class="resumo-item ras-voluntario">
+          <div class="resumo-icon">
+            <i class="fas fa-hand-paper"></i>
+          </div>
+          <div class="resumo-content">
+            <h3>{{ resumoFinanceiro.rasVoluntario.valor | currency:'BRL':'symbol':'1.2-2' }}</h3>
+            <p>RAS Voluntário</p>
+            <small>{{ resumoFinanceiro.rasVoluntario.quantidade }}x</small>
+          </div>
+        </div>
+
+        <!-- Card RAS Compulsório -->
+        <div class="resumo-item ras-compulsorio">
+          <div class="resumo-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="resumo-content">
+            <h3>{{ resumoFinanceiro.rasCompulsorio.valor | currency:'BRL':'symbol':'1.2-2' }}</h3>
+            <p>RAS Compulsório</p>
+            <small>{{ resumoFinanceiro.rasCompulsorio.quantidade }}x</small>
+          </div>
+        </div>
+
+        <!-- Card Trocas -->
+        <div class="resumo-item trocas" 
+             [title]="'Trocas Ordinárias: ' + (resumoFinanceiro.trocas.ordinarias.valor | currency:'BRL':'symbol':'1.2-2') + ' (' + resumoFinanceiro.trocas.ordinarias.quantidade + 'x)\nTrocas RAS Comp.: ' + (resumoFinanceiro.trocas.rasCompulsorio.valor | currency:'BRL':'symbol':'1.2-2') + ' (' + resumoFinanceiro.trocas.rasCompulsorio.quantidade + 'x)'">
+          <div class="resumo-icon">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          <div class="resumo-content">
+            <h3>{{ resumoFinanceiro.trocas.total | currency:'BRL':'symbol':'1.2-2' }}</h3>
+            <p>Trocas</p>
+            <small>Ord + RAS-C</small>
+          </div>
+        </div>
+
+        <!-- Total Geral -->
+        <div class="resumo-total">
+          <div class="total-content">
+            <span class="total-label">Total Geral:</span>
+            <span class="total-valor">{{ resumoFinanceiro.totalGeral | currency:'BRL':'symbol':'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seção 4: Configurações de Auto-Preenchimento -->
+    <div class="dashboard-card configuracoes-card">
+      <div class="card-header">
+        <h2>
+          <i class="fas fa-cog"></i>
+          Configurações
+        </h2>
+        <p class="card-description">Auto-preenchimento de formulários</p>
+      </div>
+
+      <div class="configuracoes-content">
+        <div class="config-item">
+          <label class="config-label">
+            <input type="checkbox" 
+                   [(ngModel)]="perfilUsuario.configuracoes.autoPreencherNome">
+            <span class="checkmark"></span>
+            <div class="config-text">
+              <strong>Preencher automaticamente meu nome</strong>
+              <small>Nos formulários de serviços e trocas</small>
+            </div>
+          </label>
+        </div>
+
+        <div class="config-item">
+          <label class="config-label">
+            <input type="checkbox" 
+                   [(ngModel)]="perfilUsuario.configuracoes.autoPreencherUnidade">
+            <span class="checkmark"></span>
+            <div class="config-text">
+              <strong>Usar minha unidade como padrão</strong>
+              <small>Preenche automaticamente o campo unidade</small>
+            </div>
+          </label>
+        </div>
+
+        <div class="config-item">
+          <label class="config-label">
+            <input type="checkbox" 
+                   [(ngModel)]="perfilUsuario.configuracoes.aplicarTabelaValores">
+            <span class="checkmark"></span>
+            <div class="config-text">
+              <strong>Aplicar tabela de valores por posto</strong>
+              <small>Calcula valores automaticamente conforme graduação</small>
+            </div>
+          </label>
+        </div>
+
+        <div class="config-item">
+          <label class="config-label">
+            <input type="checkbox" 
+                   [(ngModel)]="perfilUsuario.configuracoes.calcularAutomaticamente">
+            <span class="checkmark"></span>
+            <div class="config-text">
+              <strong>Cálculos automáticos</strong>
+              <small>Totais, horas e valores calculados automaticamente</small>
+            </div>
+          </label>
+        </div>
+
+        <!-- Divisor -->
+        <hr class="config-divider">
+        <h3 class="config-section-title">
+          <i class="fas fa-palette"></i>
+          Configurações Visuais
+        </h3>
+
+        <div class="config-item">
+          <label class="config-label">
+            <input type="checkbox" 
+                   [(ngModel)]="perfilUsuario.configuracoes.usarCoresSobrepostasAlternativas"
+                   (change)="alternarCoresSobrepostas()">
+            <span class="checkmark"></span>
+            <div class="config-text">
+              <strong>Cores sobrepostas alternativas</strong>
+              <small>Usa padrão listrado para múltiplos serviços no mesmo dia</small>
+            </div>
+          </label>
+        </div>
+
+        <div class="config-item">
+          <label class="config-label">
+            <input type="checkbox" 
+                   [(ngModel)]="perfilUsuario.configuracoes.exibirValorOrdinario"
+                   (change)="alternarExibicaoValorOrdinario()">
+            <span class="checkmark"></span>
+            <div class="config-text">
+              <strong>Exibir valor do serviço ordinário</strong>
+              <small>Mostra valor individual (normalmente incluído no salário)</small>
+            </div>
+          </label>
+        </div>
+
+        <div class="config-actions">
+          <button class="btn btn-primary btn-sm" (click)="salvarPerfil()">
+            <i class="fas fa-save"></i>
+            Salvar Configurações
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

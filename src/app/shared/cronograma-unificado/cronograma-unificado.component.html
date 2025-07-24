@@ -1,0 +1,132 @@
+<div class="cronograma-container">
+  <!-- Cabeçalho com navegação -->
+  <div class="cronograma-header">
+    <div class="navegacao">
+      <button class="btn-nav" (click)="navegarSemana('anterior')">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="periodo-info">
+        <h3>{{ modoVisualizacao === 'semanal' ? 'Semana' : 'Mês' }}</h3>
+        <span>{{ dataInicial | date:'MMM yyyy':'pt-BR' }}</span>
+      </div>
+      
+      <button class="btn-nav" (click)="navegarSemana('proxima')">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Filtros de tipo de serviço -->
+    <div class="filtros-tipo">
+      <div class="filtro-item" [class.ativo]="exibirTipos.includes('ordinario')">
+        <span class="tipo-badge ordinario">ORD</span>
+        <span>Ordinário</span>
+      </div>
+      <div class="filtro-item" [class.ativo]="exibirTipos.includes('ras-voluntario')">
+        <span class="tipo-badge ras-voluntario">RAS-V</span>
+        <span>RAS Voluntário</span>
+      </div>
+      <div class="filtro-item" [class.ativo]="exibirTipos.includes('ras-compulsorio')">
+        <span class="tipo-badge ras-compulsorio">RAS-C</span>
+        <span>RAS Compulsório</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid do cronograma -->
+  <div class="cronograma-grid">
+    <!-- Cabeçalho dos dias -->
+    <div class="grid-header">
+      <div class="hora-header">Horário</div>
+      <div class="dia-header" *ngFor="let dia of diasExibicao">
+        <div class="dia-nome">{{ diasSemana[dia.getDay()] }}</div>
+        <div class="dia-data">{{ formatarData(dia) }}</div>
+      </div>
+    </div>
+
+    <!-- Linhas de horas -->
+    <div class="grid-body">
+      <div class="hora-row" *ngFor="let hora of horasExibicao">
+        <div class="hora-label">{{ hora }}</div>
+        
+        <div class="dia-cell" 
+             *ngFor="let dia of diasExibicao"
+             (click)="onCelulaClick(dia, hora)">
+          
+          <!-- Serviços nesta célula -->
+          <div class="servico-item" 
+               *ngFor="let servico of getServicosPorDiaHora(dia, hora)"
+               [class]="getClasseServico(servico)"
+               (click)="onServicoClick(servico); $event.stopPropagation()"
+               [title]="servico.policial + ' - ' + servico.local">
+            
+            <div class="servico-header">
+              <span class="servico-tipo">{{ getTipoLabel(servico.tipo) }}</span>
+              <span class="servico-horario">{{ servico.horaInicio }}-{{ servico.horaFim }}</span>
+            </div>
+            
+            <div class="servico-policial">{{ servico.policial }}</div>
+            
+            <div class="servico-local" *ngIf="servico.local">
+              <i class="fas fa-map-marker-alt"></i>
+              {{ servico.local }}
+            </div>
+          </div>
+
+          <!-- Indicador de célula vazia -->
+          <div class="celula-vazia" *ngIf="getServicosPorDiaHora(dia, hora).length === 0">
+            <i class="fas fa-plus"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alertas de conflitos -->
+  <div class="conflitos-alertas" *ngIf="conflitos.length > 0">
+    <div class="alerta-header">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>Conflitos Detectados ({{ conflitos.length }})</span>
+    </div>
+    
+    <div class="conflito-item" *ngFor="let conflito of conflitos">
+      <div class="conflito-tipo">
+        <i class="fas fa-times-circle" *ngIf="conflito.tipo === 'sobreposicao'"></i>
+        <i class="fas fa-clock" *ngIf="conflito.tipo === 'descanso-insuficiente'"></i>
+      </div>
+      
+      <div class="conflito-detalhes">
+        <div class="conflito-servicos">
+          <span class="servico-ref tipo-{{ conflito.servico1.tipo }}">
+            {{ getTipoLabel(conflito.servico1.tipo) }} - {{ conflito.servico1.policial }}
+          </span>
+          <i class="fas fa-arrow-right"></i>
+          <span class="servico-ref tipo-{{ conflito.servico2.tipo }}">
+            {{ getTipoLabel(conflito.servico2.tipo) }} - {{ conflito.servico2.policial }}
+          </span>
+        </div>
+        <div class="conflito-mensagem">{{ conflito.mensagem }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legenda -->
+  <div class="cronograma-legenda">
+    <div class="legenda-item">
+      <div class="cor-amostra ordinario"></div>
+      <span>Serviço Ordinário</span>
+    </div>
+    <div class="legenda-item">
+      <div class="cor-amostra ras-voluntario"></div>
+      <span>RAS Voluntário</span>
+    </div>
+    <div class="legenda-item">
+      <div class="cor-amostra ras-compulsorio"></div>
+      <span>RAS Compulsório</span>
+    </div>
+    <div class="legenda-item">
+      <div class="cor-amostra conflito"></div>
+      <span>Conflito</span>
+    </div>
+  </div>
+</div>

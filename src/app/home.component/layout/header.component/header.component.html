@@ -1,0 +1,35 @@
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <button class="menu-toggle" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="logo" routerLink="/home" style="cursor: pointer;">
+        <i class="fas fa-shield-alt"></i>
+        <span class="logo-text">PMSC - Sistema de Controle</span>
+      </div>
+    </div>
+    
+    <nav class="header-nav">
+      <ul class="nav-list">
+        <li><a routerLink="/home" class="nav-link">Início</a></li>
+        <li><a routerLink="/servicos" class="nav-link">Serviços</a></li>
+        <li><a href="#" class="nav-link">Financeiro</a></li>
+        <li><a href="#" class="nav-link">Relatórios</a></li>
+      </ul>
+    </nav>
+    
+    <div class="header-right">
+      <div class="current-time">
+        <i class="fas fa-clock"></i>
+        <span class="time-display">{{ currentTime }}</span>
+      </div>
+      <div class="user-info">
+        <div class="user-details">
+          <span class="user-name">Comandante Silva</span>
+          <span class="user-badge">PMSC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

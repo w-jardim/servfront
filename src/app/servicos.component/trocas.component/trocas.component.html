@@ -1,0 +1,149 @@
+<div class="trocas-container">
+  <!-- Cabeçalho da página -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>
+        <i class="fas fa-exchange-alt"></i>
+        Trocas de Serviço
+      </h1>
+      <p class="page-description">
+        Gestão de trocas entre policiais - Ordinário e RAS Compulsório
+      </p>
+    </div>
+    
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="alternarModoVisualizacao()">
+        <i class="fas fa-calendar-alt"></i>
+        {{ modoVisualizacao === 'semanal' ? 'Visão Mensal' : 'Visão Semanal' }}
+      </button>
+      
+      <button class="btn btn-outline" (click)="exportarCronograma()">
+        <i class="fas fa-download"></i>
+        Exportar
+      </button>
+      
+      <button class="btn btn-outline" (click)="imprimirCronograma()">
+        <i class="fas fa-print"></i>
+        Imprimir
+      </button>
+      
+      <button class="btn btn-primary" (click)="onNovoServico({data: dataAtual, hora: '06:00'})">
+        <i class="fas fa-plus"></i>
+        Nova Troca
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards de estatísticas -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon info">
+        <i class="fas fa-calendar-check"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.trocasMes }}</h3>
+        <p>Trocas Este Mês</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon success">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.trocasConfirmadas }}</h3>
+        <p>Trocas Confirmadas</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon info">
+        <i class="fas fa-money-bill-wave"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.valorMedioAcordado | currency:'BRL':'symbol':'1.2-2' }}</h3>
+        <p>Valor Médio Acordado</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon" [class.warning]="estatisticas.conflitosAtivos > 0" [class.success]="estatisticas.conflitosAtivos === 0">
+        <i class="fas fa-exclamation-triangle" *ngIf="estatisticas.conflitosAtivos > 0"></i>
+        <i class="fas fa-check-circle" *ngIf="estatisticas.conflitosAtivos === 0"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.conflitosAtivos }}</h3>
+        <p>Conflitos</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros de exibição -->
+  <div class="filtros-container">
+    <h4>Exibir no Cronograma:</h4>
+    <div class="filtros-tipos">
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ordinario')"
+               (change)="alternarTipoExibicao('ordinario')">
+        <span class="checkmark ordinario" [class.checked]="tiposExibicao.includes('ordinario')"></span>
+        <span class="label-text">Serviços Originais</span>
+      </label>
+      
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('troca-ordinario')"
+               (change)="alternarTipoExibicao('troca-ordinario')">
+        <span class="checkmark troca-ordinario" [class.checked]="tiposExibicao.includes('troca-ordinario')"></span>
+        <span class="label-text">Trocas Ordinário</span>
+      </label>
+      
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('troca-ras')"
+               (change)="alternarTipoExibicao('troca-ras')">
+        <span class="checkmark troca-ras" [class.checked]="tiposExibicao.includes('troca-ras')"></span>
+        <span class="label-text">Trocas RAS Compulsório</span>
+      </label>
+
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ras-voluntario')"
+               (change)="alternarTipoExibicao('ras-voluntario')">
+        <span class="checkmark ras-voluntario" [class.checked]="tiposExibicao.includes('ras-voluntario')"></span>
+        <span class="label-text">RAS Voluntário</span>
+      </label>
+      
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ras-compulsorio')"
+               (change)="alternarTipoExibicao('ras-compulsorio')">
+        <span class="checkmark ras-compulsorio" [class.checked]="tiposExibicao.includes('ras-compulsorio')"></span>
+        <span class="label-text">RAS Compulsório</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Cronograma unificado -->
+  <app-cronograma-unificado
+    [servicos]="getServicosParaCronograma()"
+    [exibirTipos]="tiposExibicao"
+    [modoVisualizacao]="modoVisualizacao"
+    [dataInicial]="dataAtual"
+    (servicoClicado)="onServicoClicado($event)"
+    (novoServico)="onNovoServico($event)"
+    (conflitosDetectados)="onConflitosDetectados($event)">
+  </app-cronograma-unificado>
+
+  <!-- Modal de cadastro -->
+  <app-cadastro-troca
+    *ngIf="mostrarModalCadastro"
+    [troca]="trocaEdicao"
+    [dataInicial]="getDataSelecionadaString()"
+    [horaInicial]="getHoraSelecionadaString()"
+    [policiais]="policiais"
+    (trocaSalva)="onTrocaSalva($event)"
+    (trocaExcluida)="onTrocaExcluida($event)"
+    (modalFechado)="fecharModal()">
+  </app-cadastro-troca>
+</div>

@@ -1,0 +1,228 @@
+<div class="servicos-container">
+  <!-- Cabeçalho da página -->
+      <div class="page-header">
+        <div class="header-left">
+          <h1>
+            <i class="fas fa-shield-alt"></i>
+            Controle de Serviços
+          </h1>
+          <p class="page-description">
+            Visão geral e gestão unificada dos serviços policiais
+          </p>
+        </div>
+        
+        <div class="header-actions">
+          <button class="btn btn-secondary">
+            <i class="fas fa-chart-bar"></i>
+            Relatórios
+          </button>
+          
+          <button class="btn btn-outline">
+            <i class="fas fa-filter"></i>
+            Filtros
+          </button>
+          
+          <button class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            Novo Serviço
+          </button>
+        </div>
+      </div>
+
+      <!-- Cards de estatísticas gerais -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon primary">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-content">
+            <h3>24</h3>
+            <p>Serviços Ativos</p>
+            <small>Total em andamento</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon success">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3>18</h3>
+            <p>Ordinários</p>
+            <small>Escala 12x36</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon warning">
+            <i class="fas fa-hand-paper"></i>
+          </div>
+          <div class="stat-content">
+            <h3>4</h3>
+            <p>RAS Voluntário</p>
+            <small>48h programadas</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon danger">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="stat-content">
+            <h3>2</h3>
+            <p>RAS Compulsório</p>
+            <small>24h programadas</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acesso Rápido aos Serviços -->
+      <div class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-bolt"></i>
+            Acesso Rápido
+          </h2>
+          <p>Navegue rapidamente para os diferentes tipos de serviços</p>
+        </div>
+
+        <div class="quick-access-grid">
+          <a href="/servicos/ordinario" class="access-card">
+            <div class="card-icon ordinario">
+              <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="card-content">
+              <h3>Serviços Ordinários</h3>
+              <p>Gerenciar escalas regulares de policiamento</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+
+          <a href="/servicos/ras" class="access-card">
+            <div class="card-icon ras">
+              <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="card-content">
+              <h3>RAS - Regime Adicional</h3>
+              <p>Controlar serviços voluntários e compulsórios</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+
+          <a href="/servicos/trocas" class="access-card">
+            <div class="card-icon trocas">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="card-content">
+              <h3>Trocas de Serviço</h3>
+              <p>Gerenciar permutações entre policiais</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+
+          <a href="/cronograma" class="access-card">
+            <div class="card-icon cronograma">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="card-content">
+              <h3>Cronograma Unificado</h3>
+              <p>Visualização completa de todos os serviços</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Resumo Mensal -->
+      <div class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-chart-line"></i>
+            Resumo do Mês
+          </h2>
+          <p>Estatísticas e indicadores do período atual</p>
+        </div>
+
+        <div class="monthly-grid">
+          <div class="monthly-card">
+            <div class="card-header">
+              <h3>Serviços por Tipo</h3>
+              <i class="fas fa-pie-chart"></i>
+            </div>
+            <div class="chart-placeholder">
+              <div class="chart-item">
+                <span class="chart-label">Ordinários</span>
+                <div class="chart-bar">
+                  <div class="chart-fill" style="width: 75%"></div>
+                </div>
+                <span class="chart-value">75%</span>
+              </div>
+              <div class="chart-item">
+                <span class="chart-label">RAS</span>
+                <div class="chart-bar">
+                  <div class="chart-fill" style="width: 20%"></div>
+                </div>
+                <span class="chart-value">20%</span>
+              </div>
+              <div class="chart-item">
+                <span class="chart-label">Trocas</span>
+                <div class="chart-bar">
+                  <div class="chart-fill" style="width: 5%"></div>
+                </div>
+                <span class="chart-value">5%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="monthly-card">
+            <div class="card-header">
+              <h3>Indicadores</h3>
+              <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <div class="indicators">
+              <div class="indicator">
+                <span class="indicator-label">Taxa de Ocupação</span>
+                <span class="indicator-value success">94%</span>
+              </div>
+              <div class="indicator">
+                <span class="indicator-label">Serviços Pendentes</span>
+                <span class="indicator-value warning">3</span>
+              </div>
+              <div class="indicator">
+                <span class="indicator-label">Disponibilidade</span>
+                <span class="indicator-value success">Alto</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="monthly-card">
+            <div class="card-header">
+              <h3>Próximos Eventos</h3>
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="events-list">
+              <div class="event-item">
+                <div class="event-time">Hoje 18:00</div>
+                <div class="event-title">Troca de turno - Setor A</div>
+              </div>
+              <div class="event-item">
+                <div class="event-time">Amanhã 06:00</div>
+                <div class="event-title">RAS Voluntário - João Silva</div>
+              </div>
+              <div class="event-item">
+                <div class="event-time">Quinta 14:00</div>
+                <div class="event-title">Reunião de escala</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

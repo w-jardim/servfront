@@ -1,0 +1,132 @@
+<div class="ordinario-container">
+  <!-- Cabeçalho da página -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>
+        <i class="fas fa-calendar-week"></i>
+        Serviços Ordinários
+      </h1>
+      <p class="page-description">
+        Gestão e cronograma dos serviços ordinários de policiamento
+      </p>
+    </div>
+    
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="alternarModoVisualizacao()">
+        <i class="fas fa-calendar-alt"></i>
+        {{ modoVisualizacao === 'semanal' ? 'Visão Mensal' : 'Visão Semanal' }}
+      </button>
+      
+      <button class="btn btn-outline" (click)="exportarCronograma()">
+        <i class="fas fa-download"></i>
+        Exportar
+      </button>
+      
+      <button class="btn btn-outline" (click)="imprimirCronograma()">
+        <i class="fas fa-print"></i>
+        Imprimir
+      </button>
+      
+      <button class="btn btn-primary" (click)="onNovoServico({data: dataAtual, hora: '06:00'})">
+        <i class="fas fa-plus"></i>
+        Novo Serviço
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards de estatísticas -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon primary">
+        <i class="fas fa-calendar-check"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.totalServicosMes }}</h3>
+        <p>Serviços do Mês</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon success">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.horasProgramadas }}h</h3>
+        <p>Horas Programadas</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon info">
+        <i class="fas fa-calendar-day"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.servicosHoje }}</h3>
+        <p>Serviços Hoje</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon" [class.warning]="estatisticas.conflitosAtivos > 0" [class.success]="estatisticas.conflitosAtivos === 0">
+        <i class="fas fa-exclamation-triangle" *ngIf="estatisticas.conflitosAtivos > 0"></i>
+        <i class="fas fa-check-circle" *ngIf="estatisticas.conflitosAtivos === 0"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.conflitosAtivos }}</h3>
+        <p>Conflitos</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros de exibição -->
+  <div class="filtros-container">
+    <h4>Exibir no Cronograma:</h4>
+    <div class="filtros-tipos">
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ordinario')"
+               (change)="alternarTipoExibicao('ordinario')">
+        <span class="checkmark ordinario"></span>
+        <span class="label-text">Serviços Ordinários</span>
+      </label>
+      
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ras-voluntario')"
+               (change)="alternarTipoExibicao('ras-voluntario')">
+        <span class="checkmark ras-voluntario"></span>
+        <span class="label-text">RAS Voluntário</span>
+      </label>
+      
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ras-compulsorio')"
+               (change)="alternarTipoExibicao('ras-compulsorio')">
+        <span class="checkmark ras-compulsorio"></span>
+        <span class="label-text">RAS Compulsório</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Cronograma unificado -->
+  <app-cronograma-unificado
+    [servicos]="servicos"
+    [exibirTipos]="tiposExibicao"
+    [modoVisualizacao]="modoVisualizacao"
+    [dataInicial]="dataAtual"
+    (servicoClicado)="onServicoClicado($event)"
+    (novoServico)="onNovoServico($event)"
+    (conflitosDetectados)="onConflitosDetectados($event)">
+  </app-cronograma-unificado>
+
+  <!-- Modal de cadastro -->
+  <app-cadastro-ordinario
+    *ngIf="mostrarModalCadastro"
+    [servico]="servicoEdicao"
+    [dataInicial]="dataSelecionada"
+    [horaInicial]="horaSelecionada"
+    (servicoSalvo)="onServicoSalvo($event)"
+    (servicoExcluido)="onServicoExcluido($event)"
+    (modalFechado)="fecharModal()">
+  </app-cadastro-ordinario>
+</div>

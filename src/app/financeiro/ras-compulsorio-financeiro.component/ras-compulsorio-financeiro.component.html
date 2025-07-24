@@ -1,0 +1,122 @@
+<div class="ras-compulsorio-container">
+  <!-- Cabeçalho da página -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>
+        <i class="fas fa-shield-alt"></i>
+        RAS Compulsório - Financeiro
+      </h1>
+      <p class="page-description">
+        Controle financeiro dos serviços RAS compulsórios
+      </p>
+    </div>
+    
+    <div class="header-actions">
+      <button class="btn btn-secondary" routerLink="/financeiro">
+        <i class="fas fa-arrow-left"></i>
+        Voltar
+      </button>
+      
+      <button class="btn btn-outline" (click)="exportarRelatorio()">
+        <i class="fas fa-download"></i>
+        Exportar
+      </button>
+      
+      <button class="btn btn-primary" routerLink="/servicos/ras">
+        <i class="fas fa-plus"></i>
+        Criar RAS
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards de resumo -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon info">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalPadrao | currency:'BRL':'symbol':'1.2-2' }}</h3>
+        <p>RAS Padrão</p>
+        <small>R$ {{ valores.padrao }}/hora</small>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon warning">
+        <i class="fas fa-exchange-alt"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalTroca | currency:'BRL':'symbol':'1.2-2' }}</h3>
+        <p>Trocas RAS</p>
+        <small>R$ {{ valores.troca }}/hora</small>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon success">
+        <i class="fas fa-calculator"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ totalGeral | currency:'BRL':'symbol':'1.2-2' }}</h3>
+        <p>Total Geral</p>
+        <small>{{ ((totalTroca / (totalGeral || 1)) * 100) | number:'1.0-0' }}% trocas</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de serviços -->
+  <div class="services-section">
+    <div class="section-header">
+      <h2>Serviços RAS Compulsórios</h2>
+      <span class="service-count">{{ dadosRas.length }} serviços</span>
+    </div>
+    
+    <div class="services-table" *ngIf="dadosRas.length > 0">
+      <div class="table-header">
+        <div class="col-date">Data</div>
+        <div class="col-type">Tipo</div>
+        <div class="col-hours">Horas</div>
+        <div class="col-value">Valor/Hora</div>
+        <div class="col-total">Total</div>
+        <div class="col-status">Status</div>
+        <div class="col-actions">Ações</div>
+      </div>
+      
+      <div class="table-row" *ngFor="let servico of dadosRas">
+        <div class="col-date">{{ servico.dataServico | date:'dd/MM/yyyy' }}</div>
+        <div class="col-type">{{ servico.subtipo === 'compulsorio-troca' ? 'Troca' : 'Padrão' }}</div>
+        <div class="col-hours">{{ servico.horas }}h</div>
+        <div class="col-value">{{ servico.valorHora | currency:'BRL':'symbol':'1.2-2' }}</div>
+        <div class="col-total">{{ servico.valorTotal | currency:'BRL':'symbol':'1.2-2' }}</div>
+        <div class="col-status">
+          <span class="status-badge" [class]="servico.statusPagamento">
+            {{ servico.statusPagamento | titlecase }}
+          </span>
+        </div>
+        <div class="col-actions">
+          <button class="btn btn-outline btn-sm" (click)="editarServico(servico)">
+            <i class="fas fa-edit"></i>
+            Editar
+          </button>
+          <button class="btn btn-outline btn-sm" (click)="excluirServico(servico)">
+            <i class="fas fa-trash"></i>
+            Excluir
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="dadosRas.length === 0">
+      <div class="empty-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <h3>Nenhum serviço RAS compulsório encontrado</h3>
+      <p>Crie seu primeiro serviço RAS compulsório.</p>
+      <button class="btn btn-primary" routerLink="/servicos/ras">
+        <i class="fas fa-plus"></i>
+        Criar Primeiro RAS
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+<div class="ras-container">
+  <!-- Cabeçalho da página -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>
+        <i class="fas fa-shield-alt"></i>
+        Serviços de RAS
+      </h1>
+      <p class="page-description">
+        Gestão e cronograma dos serviços RAS voluntários e compulsórios
+      </p>
+    </div>
+    
+    <div class="header-actions">
+      <button class="btn btn-secondary" (click)="alternarModoVisualizacao()">
+        <i class="fas fa-calendar-alt"></i>
+        {{ modoVisualizacao === 'semanal' ? 'Visão Mensal' : 'Visão Semanal' }}
+      </button>
+      
+      <button class="btn btn-outline" (click)="exportarCronograma()">
+        <i class="fas fa-download"></i>
+        Exportar
+      </button>
+      
+      <button class="btn btn-outline" (click)="imprimirCronograma()">
+        <i class="fas fa-print"></i>
+        Imprimir
+      </button>
+      
+      <button class="btn btn-primary" (click)="onNovoServico({data: dataAtual, hora: '06:00'})">
+        <i class="fas fa-plus"></i>
+        Novo RAS
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards de estatísticas -->
+  <div class="stats-grid">
+    <div class="stat-card limite-horas">
+      <div class="stat-icon" [style.background-color]="getCorProgressoHoras()">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.horasUsadas }}/{{ estatisticas.limiteHoras }}h</h3>
+        <p>Total RAS do Mês</p>
+        <div class="progress-bar">
+          <div class="progress-fill" 
+               [style.width.%]="getProgressoHoras()"
+               [style.background-color]="getCorProgressoHoras()">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon success">
+        <i class="fas fa-money-bill-wave"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.valorAcumulado | currency:'BRL':'symbol':'1.2-2' }}</h3>
+        <p>Valor Acumulado</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon info">
+        <i class="fas fa-calendar-check"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.servicosAgendados }}</h3>
+        <p>Serviços Agendados</p>
+        <small>T:{{ estatisticas.titulares }} R:{{ estatisticas.reservas }}</small>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon" [class.warning]="estatisticas.conflitosAtivos > 0" [class.success]="estatisticas.conflitosAtivos === 0">
+        <i class="fas fa-exclamation-triangle" *ngIf="estatisticas.conflitosAtivos > 0"></i>
+        <i class="fas fa-check-circle" *ngIf="estatisticas.conflitosAtivos === 0"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ estatisticas.conflitosAtivos }}</h3>
+        <p>Conflitos</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alertas de limite -->
+  <div class="alerta-limite" *ngIf="getProgressoHoras() >= 75">
+    <div class="alerta-header" [class.critico]="getProgressoHoras() >= 90">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span *ngIf="getProgressoHoras() >= 90; else alertaNormal">
+        <strong>LIMITE CRÍTICO!</strong> Você está próximo do limite de 120h mensais
+      </span>
+      <ng-template #alertaNormal>
+        <strong>Atenção!</strong> Você já utilizou {{ estatisticas.horasUsadas }}h dos 120h permitidos
+      </ng-template>
+    </div>
+    <div class="alerta-detalhes">
+      Restam apenas {{ estatisticas.limiteHoras - estatisticas.horasUsadas }}h disponíveis para este mês
+    </div>
+  </div>
+
+  <!-- Filtros de exibição -->
+  <div class="filtros-container">
+    <h4>Exibir no Cronograma:</h4>
+    <div class="filtros-tipos">
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ordinario')"
+               (change)="alternarTipoExibicao('ordinario')">
+        <span class="checkmark ordinario" [class.checked]="tiposExibicao.includes('ordinario')"></span>
+        <span class="label-text">Serviços Ordinários</span>
+      </label>
+      
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ras-voluntario')"
+               (change)="alternarTipoExibicao('ras-voluntario')">
+        <span class="checkmark ras-voluntario" [class.checked]="tiposExibicao.includes('ras-voluntario')"></span>
+        <span class="label-text">RAS Voluntário</span>
+      </label>
+      
+      <label class="filtro-checkbox">
+        <input type="checkbox" 
+               [checked]="tiposExibicao.includes('ras-compulsorio')"
+               (change)="alternarTipoExibicao('ras-compulsorio')">
+        <span class="checkmark ras-compulsorio" [class.checked]="tiposExibicao.includes('ras-compulsorio')"></span>
+        <span class="label-text">RAS Compulsório</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Cronograma unificado -->
+  <app-cronograma-unificado
+    [servicos]="getServicosParaCronograma()"
+    [exibirTipos]="tiposExibicao"
+    [modoVisualizacao]="modoVisualizacao"
+    [dataInicial]="dataAtual"
+    (servicoClicado)="onServicoClicado($event)"
+    (novoServico)="onNovoServico($event)"
+    (conflitosDetectados)="onConflitosDetectados($event)">
+  </app-cronograma-unificado>
+
+  <!-- Modal de cadastro -->
+  <app-cadastro-ras
+    *ngIf="mostrarModalCadastro"
+    [servico]="servicoEdicao"
+    [dataInicial]="getDataSelecionadaString()"
+    [horaInicial]="getHoraSelecionadaString()"
+    [tabelaValores]="tabelaValores"
+    [tabelaValoresFixos]="tabelaValoresFixos"
+    [valorAlimentacao]="valorAlimentacao"
+    [valorTransporte]="valorTransporte"
+    [limiteHorasRestantes]="estatisticas.limiteHoras - estatisticas.horasUsadas"
+    (servicoSalvo)="onServicoSalvo($event)"
+    (servicoExcluido)="onServicoExcluido($event)"
+    (modalFechado)="fecharModal()">
+  </app-cadastro-ras>
+</div>

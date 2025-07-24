@@ -1,0 +1,221 @@
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 260px;
+  height: calc(100vh - 60px);
+  background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+
+  &.collapsed {
+    width: 70px;
+
+    .sidebar-header .sidebar-title {
+      display: none;
+    }
+
+    .nav-text,
+    .submenu-arrow {
+      display: none;
+    }
+
+    .submenu {
+      display: none !important;
+    }
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      i {
+        font-size: 24px;
+        color: #ffd700;
+      }
+
+      .sidebar-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .collapse-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 4px;
+      transition: all 0.3s;
+
+      &:hover {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px 0;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .nav-item {
+        margin: 3px 15px;
+
+        &.has-submenu {
+          &.open {
+            .submenu-arrow {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        .nav-link {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 15px;
+          color: rgba(255, 255, 255, 0.85);
+          text-decoration: none;
+          border-radius: 8px;
+          transition: all 0.3s;
+          position: relative;
+          font-size: 14px;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
+          }
+
+          &.active {
+            background: rgba(255, 215, 0, 0.15);
+            color: white;
+            border-left: 3px solid #ffd700;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+          }
+
+          i {
+            width: 18px;
+            text-align: center;
+            font-size: 16px;
+          }
+
+          .nav-text {
+            flex: 1;
+            font-weight: 500;
+          }
+
+          .submenu-arrow {
+            font-size: 12px;
+            transition: transform 0.3s;
+            opacity: 0.7;
+          }
+        }
+
+        .submenu {
+          list-style: none;
+          padding: 0;
+          margin: 5px 0 0 0;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 8px;
+          overflow: hidden;
+
+          li {
+            .submenu-link {
+              display: block;
+              padding: 10px 15px 10px 45px;
+              color: rgba(255, 255, 255, 0.75);
+              text-decoration: none;
+              transition: all 0.3s;
+              font-size: 13px;
+
+              &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                color: white;
+                padding-left: 48px;
+              }
+            }
+          }
+        }
+      }
+
+      .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.15);
+        margin: 15px 15px;
+      }
+    }
+  }
+
+  .sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+
+    .system-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .info-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+
+        i {
+          color: #ffd700;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+
+    &.show {
+      transform: translateX(0);
+    }
+  }
+}

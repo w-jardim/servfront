@@ -1,0 +1,98 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <i class="fas fa-shield-alt"></i>
+      <span class="sidebar-title" *ngIf="!isCollapsed">PMSC Sistema</span>
+    </div>
+    <button class="collapse-btn" (click)="toggleCollapse()" *ngIf="!isCollapsed">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a routerLink="/dashboard" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-tachometer-alt"></i>
+          <span class="nav-text" *ngIf="!isCollapsed">Dashboard</span>
+        </a>
+      </li>
+      
+      <li class="nav-divider" *ngIf="!isCollapsed"></li>
+      
+      <li class="nav-item has-submenu" [class.open]="submenuStates.services">
+        <a href="#" class="nav-link" (click)="toggleSubmenu('services', $event)">
+          <i class="fas fa-shield-alt"></i>
+          <span class="nav-text" *ngIf="!isCollapsed">Controle de Serviços</span>
+          <i class="fas fa-chevron-down submenu-arrow" *ngIf="!isCollapsed"></i>
+        </a>
+        <ul class="submenu" *ngIf="!isCollapsed && submenuStates.services">
+          <li><a routerLink="/servicos" class="submenu-link">Visão Geral</a></li>
+          <li><a routerLink="/servicos/ordinarios" class="submenu-link">Serviços Ordinários</a></li>
+          <li><a routerLink="/servicos/ras" class="submenu-link">Serviços de RAS</a></li>
+          <li><a routerLink="/servicos/trocas" class="submenu-link">Trocas</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item has-submenu" [class.open]="submenuStates.financial">
+        <a href="#" class="nav-link" (click)="toggleSubmenu('financial', $event)">
+          <i class="fas fa-chart-line"></i>
+          <span class="nav-text" *ngIf="!isCollapsed">Financeiro</span>
+          <i class="fas fa-chevron-down submenu-arrow" *ngIf="!isCollapsed"></i>
+        </a>
+        <ul class="submenu" *ngIf="!isCollapsed && submenuStates.financial">
+          <li><a routerLink="/financeiro" class="submenu-link">Visão Geral</a></li>
+          <li><a routerLink="/financeiro/metas" class="submenu-link">Metas Financeiras</a></li>
+          <li><a routerLink="/financeiro/ras-voluntario" class="submenu-link">RAS Voluntário</a></li>
+          <li><a routerLink="/financeiro/ras-compulsorio" class="submenu-link">RAS Compulsório</a></li>
+          <li><a routerLink="/financeiro/ordinario" class="submenu-link">Ordinário</a></li>
+          <li><a routerLink="/financeiro/relatorios" class="submenu-link">Relatórios</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item has-submenu" [class.open]="submenuStates.reports">
+        <a href="#" class="nav-link" (click)="toggleSubmenu('reports', $event)">
+          <i class="fas fa-chart-bar"></i>
+          <span class="nav-text" *ngIf="!isCollapsed">Relatórios</span>
+          <i class="fas fa-chevron-down submenu-arrow" *ngIf="!isCollapsed"></i>
+        </a>
+        <ul class="submenu" *ngIf="!isCollapsed && submenuStates.reports">
+          <li><a href="#" class="submenu-link">Relatório de Escalas</a></li>
+          <li><a href="#" class="submenu-link">Relatório Financeiro</a></li>
+          <li><a href="#" class="submenu-link">Dashboard Executivo</a></li>
+          <li><a href="#" class="submenu-link">Histórico de Atividades</a></li>
+          <li><a href="#" class="submenu-link">Análise de Performance</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-divider" *ngIf="!isCollapsed"></li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-text" *ngIf="!isCollapsed">Calendário</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-cog"></i>
+          <span class="nav-text" *ngIf="!isCollapsed">Configurações</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer" *ngIf="!isCollapsed">
+    <div class="system-info">
+      <div class="info-item">
+        <i class="fas fa-shield-alt"></i>
+        <span>PMSC - Sistema Integrado</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-clock"></i>
+        <span>Última atualização</span>
+      </div>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,252 @@
+<div class="financeiro-container">
+  <!-- Cabeçalho da página -->
+      <div class="page-header">
+        <div class="header-left">
+          <h1>
+            <i class="fas fa-chart-line"></i>
+            Visão Geral Financeira
+          </h1>
+          <p class="page-description">
+            Dashboard financeiro com totais, metas e análises
+          </p>
+        </div>
+        
+        <div class="header-actions">
+          <button class="btn btn-secondary">
+            <i class="fas fa-download"></i>
+            Exportar
+          </button>
+          
+          <button class="btn btn-outline">
+            <i class="fas fa-filter"></i>
+            Filtros
+          </button>
+          
+          <button class="btn btn-primary" routerLink="/financeiro/metas">
+            <i class="fas fa-bullseye"></i>
+            Metas
+          </button>
+        </div>
+      </div>
+
+      <!-- Cards de resumo financeiro -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon primary">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ totalMensal | currency:'BRL':'symbol':'1.2-2' }}</h3>
+            <p>Total Mensal</p>
+            <small>Todos os serviços</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon success">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ totalPago | currency:'BRL':'symbol':'1.2-2' }}</h3>
+            <p>Pagamentos Realizados</p>
+            <small>Status: Pago</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon warning">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ totalPendente | currency:'BRL':'symbol':'1.2-2' }}</h3>
+            <p>Pagamentos Pendentes</p>
+            <small>Aguardando processamento</small>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon info">
+            <i class="fas fa-bullseye"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ metasAtivas }}</h3>
+            <p>Metas Ativas</p>
+            <small>Em andamento</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acesso Rápido -->
+      <div class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-bolt"></i>
+            Acesso Rápido
+          </h2>
+          <p>Navegue pelas categorias financeiras</p>
+        </div>
+
+        <div class="quick-access-grid">
+          <a routerLink="/financeiro/metas" class="access-card">
+            <div class="card-icon metas">
+              <i class="fas fa-bullseye"></i>
+            </div>
+            <div class="card-content">
+              <h3>Metas Financeiras</h3>
+              <p>Crie e acompanhe suas metas pessoais</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+
+          <a routerLink="/financeiro/ras-voluntario" class="access-card">
+            <div class="card-icon ras">
+              <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="card-content">
+              <h3>RAS Voluntário</h3>
+              <p>Batalhão (R$ 65/h) e Projetos (R$ 85/h)</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+
+          <a routerLink="/financeiro/ras-compulsorio" class="access-card">
+            <div class="card-icon compulsorio">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="card-content">
+              <h3>RAS Compulsório</h3>
+              <p>Padrão (R$ 45/h) e Troca (R$ 40/h)</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+
+          <a routerLink="/financeiro/ordinario" class="access-card">
+            <div class="card-icon ordinario">
+              <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="card-content">
+              <h3>Serviços Ordinários</h3>
+              <p>Salário mensal e trocas</p>
+              <span class="card-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Distribuição por Tipo de Serviço -->
+      <div class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-chart-pie"></i>
+            Distribuição por Tipo
+          </h2>
+          <p>Análise dos tipos de serviços realizados</p>
+        </div>
+
+        <div class="distribution-grid">
+          <div class="distribution-card" *ngFor="let item of getDistribuicaoTipos()">
+            <div class="distribution-header">
+              <h3>{{ item.tipo }}</h3>
+              <span class="distribution-value">{{ item.valor | currency:'BRL':'symbol':'1.2-2' }}</span>
+            </div>
+            <div class="distribution-bar">
+              <div class="distribution-fill" [style.width.%]="item.percentual"></div>
+            </div>
+            <div class="distribution-footer">
+              <span class="distribution-percent">{{ item.percentual | number:'1.1-1' }}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metas em Destaque -->
+      <div class="section" *ngIf="metas.length > 0">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-target"></i>
+            Metas em Destaque
+          </h2>
+          <p>Acompanhe o progresso das suas metas</p>
+        </div>
+
+        <div class="metas-grid">
+          <div class="meta-card" *ngFor="let meta of metas.slice(0, 3)">
+            <div class="meta-header">
+              <h3>{{ meta.titulo }}</h3>
+              <span class="meta-status" [class]="'status-' + meta.status">
+                {{ meta.status | titlecase }}
+              </span>
+            </div>
+            <div class="meta-progress">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="(meta.valorAtual / meta.valorMeta) * 100"></div>
+              </div>
+              <div class="progress-text">
+                <span>{{ meta.valorAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
+                <span>{{ meta.valorMeta | currency:'BRL':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+            <div class="meta-footer">
+              <span class="meta-deadline">Prazo: {{ meta.prazoMeta | date:'dd/MM/yyyy' }}</span>
+              <span class="meta-services">{{ meta.servicosRealizados }} serviços</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Serviços Recentes -->
+      <div class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-history"></i>
+            Serviços Recentes
+          </h2>
+          <p>Últimos serviços com valores financeiros</p>
+        </div>
+
+        <div class="services-table">
+          <div class="table-header">
+            <div class="col-date">Data</div>
+            <div class="col-officer">Policial</div>
+            <div class="col-type">Tipo</div>
+            <div class="col-hours">Horas</div>
+            <div class="col-value">Valor</div>
+            <div class="col-status">Status</div>
+            <div class="col-actions">Ações</div>
+          </div>
+          
+          <div class="table-row" *ngFor="let servico of dadosFinanceiros.slice(0, 10)">
+            <div class="col-date">{{ servico.dataServico | date:'dd/MM/yyyy' }}</div>
+            <div class="col-officer">{{ servico.policial }}</div>
+            <div class="col-type">
+              <span class="service-type" [class]="'type-' + servico.tipoServico">
+                {{ formatarTipoServico(servico.tipoServico) }}
+              </span>
+            </div>
+            <div class="col-hours">{{ servico.horas }}h</div>
+            <div class="col-value">{{ servico.valorTotal | currency:'BRL':'symbol':'1.2-2' }}</div>
+            <div class="col-status">
+              <span class="status-badge" [class]="'status-' + servico.statusPagamento">
+                {{ servico.statusPagamento | titlecase }}
+              </span>
+            </div>
+            <div class="col-actions">
+              <button class="btn-icon" title="Editar">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-icon" title="Excluir">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

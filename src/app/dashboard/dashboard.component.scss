@@ -1,0 +1,796 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Inter', sans-serif;
+  padding: 20px 40px;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    background: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #1e3c72;
+
+    @media (max-width: 768px) {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .header-left {
+      h1 {
+        margin: 0 0 8px 0;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        i {
+          color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+          font-size: 1.5rem;
+        }
+      }
+
+      .page-description {
+        margin: 0;
+        color: #6b7280;
+        font-size: 1rem;
+
+        @media (max-width: 768px) {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  .dashboard-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 20px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .card-description {
+        margin: 5px 0 0 0;
+        opacity: 0.9;
+        font-size: 0.9rem;
+      }
+
+      .calendario-navegacao {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        .mes-atual {
+          font-weight: 600;
+          min-width: 140px;
+          text-align: center;
+        }
+      }
+
+      .periodo {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  // Perfil Card
+  .perfil-card {
+    .perfil-content {
+      padding: 25px;
+      display: flex;
+      gap: 25px;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+
+    .avatar-section {
+      flex-shrink: 0;
+      
+      .avatar-container, .avatar-upload {
+        text-align: center;
+      }
+
+      .avatar-image, .avatar-placeholder {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #e5e7eb;
+      }
+
+      .avatar-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        color: #9ca3af;
+        font-size: 2rem;
+      }
+
+      .avatar-preview {
+        margin-bottom: 15px;
+      }
+
+      .upload-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    .perfil-dados {
+      flex: 1;
+      
+      .form-group {
+        margin-bottom: 15px;
+
+        label {
+          display: block;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 5px;
+          font-size: 0.9rem;
+        }
+
+        .valor {
+          color: #6b7280;
+          font-weight: 500;
+        }
+
+        .form-control {
+          width: 100%;
+          padding: 10px 15px;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 0.95rem;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+          &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          }
+        }
+
+        .form-hint {
+          display: block;
+          color: #6b7280;
+          font-size: 0.8rem;
+          margin-top: 5px;
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+    }
+  }
+
+  // Calendário Card
+  .calendario-card {
+    .calendario-container {
+      padding: 20px;
+    }
+
+    .calendario-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: 10px;
+
+      .dia-semana {
+        text-align: center;
+        font-weight: 600;
+        color: #374151;
+        padding: 10px 5px;
+        font-size: 0.85rem;
+      }
+    }
+
+    .calendario-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+
+      .dia-calendario {
+        aspect-ratio: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        background: #f9fafb;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        position: relative;
+
+        &:hover {
+          background: #f3f4f6;
+          border-color: #d1d5db;
+        }
+
+        &.com-servicos {
+          background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+          color: white;
+          border-color: #2563eb;
+
+          &:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+          }
+        }
+
+        .numero-dia {
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+
+        .valor-dia {
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          font-size: 0.7rem;
+          font-weight: 500;
+          margin-top: 2px;
+
+          i {
+            font-size: 0.6rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Resumo Card
+  .resumo-card {
+    .resumo-grid {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+
+      @media (max-width: 1200px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .resumo-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .resumo-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: white;
+      }
+
+      .resumo-content {
+        flex: 1;
+
+        h3 {
+          margin: 0 0 5px 0;
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: #1f2937;
+        }
+
+        p {
+          margin: 0 0 2px 0;
+          font-weight: 600;
+          color: #374151;
+          font-size: 0.95rem;
+        }
+
+        small {
+          color: #6b7280;
+          font-size: 0.8rem;
+        }
+      }
+
+      &.ordinario {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        .resumo-icon { background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); }
+      }
+
+      &.ordinario-info {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-left: 4px solid #94a3b8;
+        
+        .resumo-icon { 
+          background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%); 
+        }
+
+        .resumo-content h3 {
+          font-size: 1.1rem;
+          color: #64748b;
+          font-style: italic;
+        }
+      }
+
+      &.ras-voluntario {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        .resumo-icon { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
+      }
+
+      &.ras-compulsorio {
+        background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+        .resumo-icon { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+      }
+
+      &.trocas {
+        background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+        .resumo-icon { background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); }
+      }
+    }
+
+    .resumo-total {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding: 20px;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      border-radius: 10px;
+      color: white;
+
+      .total-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .total-label {
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .total-valor {
+          font-size: 1.8rem;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  // Configurações Card
+  .configuracoes-card {
+    .configuracoes-content {
+      padding: 25px;
+    }
+
+    .config-item {
+      margin-bottom: 20px;
+
+      .config-label {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background: #f9fafb;
+        }
+
+        input[type="checkbox"] {
+          display: none;
+        }
+
+        .checkmark {
+          width: 20px;
+          height: 20px;
+          border: 2px solid #d1d5db;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          flex-shrink: 0;
+          margin-top: 2px;
+
+          &::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+          }
+        }
+
+        input:checked + .checkmark {
+          background: #3b82f6;
+          border-color: #3b82f6;
+
+          &::after {
+            opacity: 1;
+          }
+        }
+
+        .config-text {
+          flex: 1;
+
+          strong {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 2px;
+          }
+
+          small {
+            color: #6b7280;
+            font-size: 0.85rem;
+            line-height: 1.4;
+          }
+        }
+      }
+    }
+
+    .config-actions {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .config-divider {
+      margin: 30px 0 20px 0;
+      border: none;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .config-section-title {
+      margin: 0 0 20px 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      i {
+        color: #8b5cf6;
+      }
+    }
+  }
+
+  // Botões
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+
+    &.btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    &.btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+
+      &:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        transform: translateY(-1px);
+      }
+    }
+
+    &.btn-secondary {
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      color: white;
+
+      &:hover {
+        background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+        transform: translateY(-1px);
+      }
+    }
+
+    &.btn-outline {
+      background: rgba(255, 255, 255, 0.1);
+      color: currentColor;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
+// Responsividade adicional
+@media (max-width: 768px) {
+  .dashboard-container .dashboard-grid {
+    .calendario-card .calendario-grid .dia-calendario {
+      .numero-dia {
+        font-size: 0.8rem;
+      }
+
+      .valor-dia {
+        font-size: 0.6rem;
+      }
+    }
+
+    .resumo-card .resumo-grid {
+      gap: 10px;
+
+      .resumo-item {
+        padding: 15px;
+
+        .resumo-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 1rem;
+        }
+
+        .resumo-content h3 {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}
+
+// Animações
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-card {
+  animation: fadeIn 0.6s ease forwards;
+
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+  &:nth-child(4) { animation-delay: 0.4s; }
+}
+
+// Estilos para Sistema de Cores e Conflitos
+.calendario-card {
+  .dia-calendario {
+    // Reset do estilo padrão para com-servicos
+    &.com-servicos {
+      background: #f9fafb; // Reset para permitir cores dinâmicas
+      color: #374151;
+      border: 1px solid #e5e7eb;
+
+      .numero-dia {
+        color: #111827;
+        font-weight: 700;
+        z-index: 2;
+        position: relative;
+      }
+
+      .valor-dia {
+        color: #111827;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        z-index: 2;
+        position: relative;
+      }
+    }
+
+    // Estilos específicos para conflitos
+    &.com-conflito {
+      position: relative;
+      animation: pulseConflito 2s infinite;
+      
+      .numero-dia {
+        color: #dc2626 !important;
+        font-weight: 900;
+      }
+
+      .valor-dia {
+        background: rgba(220, 38, 38, 0.1);
+        border: 1px solid #dc2626;
+      }
+    }
+
+    // Container para indicadores de serviço
+    .indicadores-servico {
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 2px;
+      z-index: 3;
+
+      .tipo-servico {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+      }
+
+      .icone-conflito {
+        color: #dc2626;
+        font-size: 8px;
+        animation: pulseIcon 1s infinite;
+      }
+    }
+  }
+
+  // Legenda de cores
+  .calendario-legenda {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+
+    h4 {
+      margin: 0 0 10px 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .legenda-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .legenda-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+
+      .cor-exemplo {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+      }
+
+      .cor-label {
+        color: #4b5563;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Animações para conflitos
+@keyframes pulseConflito {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+  }
+}
+
+@keyframes pulseIcon {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+// Responsividade para legendas
+@media (max-width: 768px) {
+  .calendario-card {
+    .calendario-legenda {
+      .legenda-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      .legenda-item {
+        font-size: 0.75rem;
+        gap: 6px;
+
+        .cor-exemplo {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+
+    .dia-calendario {
+      .indicadores-servico {
+        .tipo-servico {
+          width: 4px;
+          height: 4px;
+        }
+
+        .icone-conflito {
+          font-size: 6px;
+        }
+      }
+    }
+  }
+}

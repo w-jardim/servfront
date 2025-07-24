@@ -1,0 +1,148 @@
+<div class="modal-overlay" (click)="fechar()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>
+        <i class="fas fa-calendar-check"></i>
+        {{ servico ? 'Editar' : 'Novo' }} Serviço Ordinário
+      </h2>
+      <button class="btn-close" (click)="fechar()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Alertas de erro -->
+      <div class="alert alert-error" *ngIf="erros.length > 0">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+          <strong>Corrija os seguintes erros:</strong>
+          <ul>
+            <li *ngFor="let erro of erros">{{ erro }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <form class="formulario-ordinario">
+        <!-- Seção de Identificação -->
+        <div class="secao-formulario">
+          <h3>
+            <i class="fas fa-user"></i>
+            Identificação do Serviço
+          </h3>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="policial">Policial *</label>
+              <input type="text" 
+                     id="policial" 
+                     [(ngModel)]="policialNome" 
+                     name="policialNome"
+                     list="policiais-list"
+                     placeholder="Digite o nome ou selecione"
+                     (input)="onPolicialChange($event)"
+                     class="form-control">
+              <datalist id="policiais-list">
+                <option *ngFor="let policial of policiais" 
+                        [value]="policial.posto + ' ' + policial.nome + ' - ' + policial.unidade"
+                        [attr.data-id]="policial.id">
+                </option>
+              </datalist>
+            </div>
+
+            <div class="form-group">
+              <label for="local">Local do Serviço *</label>
+              <input type="text" 
+                     id="local" 
+                     [(ngModel)]="formulario.local" 
+                     name="local"
+                     list="locais-list"
+                     placeholder="Digite ou selecione o local"
+                     class="form-control">
+              <datalist id="locais-list">
+                <option *ngFor="let local of locais" [value]="local">{{ local }}</option>
+              </datalist>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção de Data e Horário -->
+        <div class="secao-formulario">
+          <h3>
+            <i class="fas fa-clock"></i>
+            Data e Horário
+          </h3>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="data">Data do Serviço *</label>
+              <input type="date" 
+                     id="data" 
+                     [(ngModel)]="formulario.data" 
+                     name="data" 
+                     class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="horaInicio">Hora Início *</label>
+              <input type="time" 
+                     id="horaInicio" 
+                     [(ngModel)]="formulario.horaInicio" 
+                     name="horaInicio" 
+                     class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="horaFim">Hora Fim *</label>
+              <input type="time" 
+                     id="horaFim" 
+                     [(ngModel)]="formulario.horaFim" 
+                     name="horaFim" 
+                     class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção de Observações -->
+        <div class="secao-formulario">
+          <h3>
+            <i class="fas fa-comment-alt"></i>
+            Informações Adicionais
+          </h3>
+          
+          <div class="form-group">
+            <label for="observacoes">Observações</label>
+            <textarea id="observacoes" 
+                      [(ngModel)]="formulario.observacoes" 
+                      name="observacoes" 
+                      rows="3" 
+                      placeholder="Informações complementares sobre o serviço..."
+                      class="form-control"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <div class="footer-left">
+        <button class="btn btn-danger" *ngIf="servico" (click)="excluir()">
+          <i class="fas fa-trash"></i>
+          Excluir
+        </button>
+      </div>
+      
+      <div class="footer-right">
+        <button class="btn btn-outline" (click)="fechar()">
+          <i class="fas fa-times"></i>
+          Cancelar
+        </button>
+        
+        <button class="btn btn-primary" (click)="salvar()">
+          <i class="fas fa-save"></i>
+          {{ servico ? 'Atualizar' : 'Salvar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
