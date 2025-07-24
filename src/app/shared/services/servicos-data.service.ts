@@ -32,7 +32,7 @@ export interface ServicoRAS {
   horaFim: string;
   tipo: 'voluntario' | 'compulsorio';
   modalidade: 'titular' | 'reserva';
-  projeto: 'PMSC' | 'CPROEIS';
+  projeto: 'ServControl' | 'CPROEIS';
   local: string;
   observacoes: string;
   valorHora: number;
@@ -141,7 +141,7 @@ export class ServicosDataService {
         horaFim: '12:00',
         tipo: 'voluntario',
         modalidade: 'titular',
-        projeto: 'PMSC',
+        projeto: 'ServControl',
         local: '1º BPM',
         observacoes: 'Serviço de patrulhamento',
         valorHora: 65,
@@ -183,7 +183,7 @@ export class ServicosDataService {
         horaFim: '18:00',
         tipo: 'compulsorio',
         modalidade: 'titular',
-        projeto: 'PMSC',
+        projeto: 'ServControl',
         local: '3º BPM',
         observacoes: 'Serviço compulsório',
         valorHora: 45,
@@ -204,7 +204,7 @@ export class ServicosDataService {
         horaFim: '06:00',
         tipo: 'compulsorio',
         modalidade: 'reserva',
-        projeto: 'PMSC',
+        projeto: 'ServControl',
         local: '1º BPM',
         observacoes: 'Troca compulsória',
         valorHora: 40,

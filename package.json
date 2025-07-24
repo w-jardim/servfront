@@ -1,6 +1,8 @@
 {
-  "name": "servfront",
-  "version": "0.0.0",
+  "name": "servcontrol",
+  "version": "1.0.0",
+  "description": "Sistema de controle de serviços e gestão financeira",
+  "author": "Wallace Jardim",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

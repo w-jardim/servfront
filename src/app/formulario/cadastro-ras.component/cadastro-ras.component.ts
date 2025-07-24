@@ -13,7 +13,7 @@ export interface ServicoRAS {
   horaFim: string;
   tipo: 'voluntario' | 'compulsorio';
   modalidade: 'titular' | 'reserva';
-  projeto: 'PMSC' | 'CPROEIS';
+  projeto: 'ServControl' | 'CPROEIS';
   local: string;
   observacoes: string;
   valorHora: number;
@@ -26,7 +26,7 @@ export interface ServicoRAS {
 export interface TabelaValores {
   [posto: string]: {
     [turno: string]: {
-      pmsc: number;
+      servcontrol: number;
       cproeis: number;
     };
   };
@@ -69,7 +69,7 @@ export class CadastroRasComponent implements OnInit {
     horaFim: '',
     tipo: 'voluntario',
     modalidade: 'titular',
-    projeto: 'PMSC',
+    projeto: 'ServControl',
     local: '',
     observacoes: '',
     valorHora: 0,
@@ -118,7 +118,7 @@ export class CadastroRasComponent implements OnInit {
       // Obter valor por hora para exibição
       const valores = this.tabelaValores[this.formulario.posto]?.[this.formulario.turno];
       if (valores) {
-        this.formulario.valorHora = this.formulario.projeto === 'CPROEIS' ? valores.cproeis : valores.pmsc;
+        this.formulario.valorHora = this.formulario.projeto === 'CPROEIS' ? valores.cproeis : valores.servcontrol;
       }
       
       // Usar valor fixo da tabela para cálculo

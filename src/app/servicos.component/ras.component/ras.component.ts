@@ -49,40 +49,40 @@ export class RasComponent implements OnInit {
   // Tabela de valores por hora (apenas para exibição)
   tabelaValores: TabelaValores = {
     'Soldado': {
-      'Diurno': { pmsc: 15.50, cproeis: 18.60 },
-      'Noturno': { pmsc: 17.05, cproeis: 20.46 }
+      'Diurno': { servcontrol: 15.50, cproeis: 18.60 },
+      'Noturno': { servcontrol: 17.05, cproeis: 20.46 }
     },
     'Cabo': {
-      'Diurno': { pmsc: 16.12, cproeis: 19.34 },
-      'Noturno': { pmsc: 17.73, cproeis: 21.28 }
+      'Diurno': { servcontrol: 16.12, cproeis: 19.34 },
+      'Noturno': { servcontrol: 17.73, cproeis: 21.28 }
     },
     'Sargento': {
-      'Diurno': { pmsc: 16.74, cproeis: 20.09 },
-      'Noturno': { pmsc: 18.41, cproeis: 22.09 }
+      'Diurno': { servcontrol: 16.74, cproeis: 20.09 },
+      'Noturno': { servcontrol: 18.41, cproeis: 22.09 }
     },
     'Subtenente': {
-      'Diurno': { pmsc: 17.36, cproeis: 20.83 },
-      'Noturno': { pmsc: 19.10, cproeis: 22.92 }
+      'Diurno': { servcontrol: 17.36, cproeis: 20.83 },
+      'Noturno': { servcontrol: 19.10, cproeis: 22.92 }
     },
     'Tenente': {
-      'Diurno': { pmsc: 17.98, cproeis: 21.58 },
-      'Noturno': { pmsc: 19.78, cproeis: 23.74 }
+      'Diurno': { servcontrol: 17.98, cproeis: 21.58 },
+      'Noturno': { servcontrol: 19.78, cproeis: 23.74 }
     },
     'Capitão': {
-      'Diurno': { pmsc: 18.60, cproeis: 22.32 },
-      'Noturno': { pmsc: 20.46, cproeis: 24.55 }
+      'Diurno': { servcontrol: 18.60, cproeis: 22.32 },
+      'Noturno': { servcontrol: 20.46, cproeis: 24.55 }
     },
     'Major': {
-      'Diurno': { pmsc: 19.22, cproeis: 23.06 },
-      'Noturno': { pmsc: 21.14, cproeis: 25.37 }
+      'Diurno': { servcontrol: 19.22, cproeis: 23.06 },
+      'Noturno': { servcontrol: 21.14, cproeis: 25.37 }
     },
     'Tenente-Coronel': {
-      'Diurno': { pmsc: 19.84, cproeis: 23.81 },
-      'Noturno': { pmsc: 21.82, cproeis: 26.19 }
+      'Diurno': { servcontrol: 19.84, cproeis: 23.81 },
+      'Noturno': { servcontrol: 21.82, cproeis: 26.19 }
     },
     'Coronel': {
-      'Diurno': { pmsc: 20.46, cproeis: 24.55 },
-      'Noturno': { pmsc: 22.51, cproeis: 27.01 }
+      'Diurno': { servcontrol: 20.46, cproeis: 24.55 },
+      'Noturno': { servcontrol: 22.51, cproeis: 27.01 }
     }
   };
   
@@ -140,7 +140,7 @@ export class RasComponent implements OnInit {
         horaFim: '18:00',
         tipo: 'compulsorio',
         modalidade: 'titular',
-        projeto: 'PMSC',
+        projeto: 'ServControl',
         local: '2º BPM',
         observacoes: 'Operação de saturação',
         valorHora: 16.12,  // Valor por hora para exibição
@@ -160,7 +160,7 @@ export class RasComponent implements OnInit {
         horaFim: '02:00',
         tipo: 'voluntario',
         modalidade: 'reserva',
-        projeto: 'PMSC',
+        projeto: 'ServControl',
         local: '3º BPM',
         observacoes: 'Patrulhamento noturno',
         valorHora: 17.05,  // Valor por hora para exibição
@@ -230,7 +230,7 @@ export class RasComponent implements OnInit {
     const valores = this.tabelaValores[servico.posto]?.[servico.turno];
     if (!valores) return 0;
     
-    return servico.projeto === 'CPROEIS' ? valores.cproeis : valores.pmsc;
+    return servico.projeto === 'CPROEIS' ? valores.cproeis : valores.servcontrol;
   }
 
   validarRASCompulsorio(policial: string, data: Date, horaInicio: string): { valido: boolean; motivo?: string } {

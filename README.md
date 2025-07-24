@@ -1,6 +1,8 @@
-# Servfront
+# ServControl
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.1.
+Sistema de controle de serviços e gestão financeira desenvolvido por Wallace Jardim.
+
+Este projeto foi gerado usando [Angular CLI](https://github.com/angular/angular-cli) versão 20.1.1.
 
 ## Development server
 
@@ -57,3 +59,13 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Autor
+
+**Wallace Jardim**  
+Desenvolvedor do Sistema ServControl
+
+---
+
+© 2025 ServControl - Sistema de Controle de Serviços e Gestão Financeira  
+Desenvolvido por Wallace Jardim
