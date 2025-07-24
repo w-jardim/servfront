@@ -1,59 +1,118 @@
-# Servfront
+# ServFront - Sistema de Controle de Serviços PMSC
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.1.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c64b4c0f-0080-43b7-b629-f55c7194cf5c" alt="Dashboard ServFront" width="600"/>
+</p>
 
-## Development server
+## 🚔 Sobre o Projeto
 
-To start a local development server, run:
+O **ServFront** é um sistema web moderno desenvolvido para a **Polícia Militar de Santa Catarina (PMSC)** que oferece controle integrado de serviços policiais e gestão financeira. 
 
-```bash
-ng serve
-```
+### ✨ Principais Funcionalidades
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- 📊 **Dashboard Integrado** - Visão geral completa de serviços e finanças
+- 🕒 **Controle de Serviços** - Gerenciamento de escalas ordinárias e RAS
+- 💰 **Gestão Financeira** - Acompanhamento de valores, metas e pagamentos
+- 📅 **Calendário Interativo** - Visualização mensal com código de cores
+- ⚡ **Detecção de Conflitos** - Identificação automática de sobreposições
+- 🎯 **Sistema de Metas** - Definição e acompanhamento de objetivos financeiros
 
-## Code scaffolding
+## 🏗️ Tecnologias Utilizadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Frontend**: Angular 20.1.0
+- **Linguagem**: TypeScript 5.8.2
+- **Estilização**: SCSS
+- **Arquitetura**: Standalone Components
+- **Padrões**: Reactive Programming com RxJS
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## 🚀 Instalação Rápida
 
 ```bash
-ng build
+# Clone o repositório
+git clone https://github.com/w-jardim/servfront.git
+cd servfront
+
+# Instale as dependências
+npm install
+
+# Execute o servidor de desenvolvimento
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+A aplicação estará disponível em `http://localhost:4200`
 
-## Running unit tests
+## 📱 Capturas de Tela
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Dashboard Principal
+![Dashboard](https://github.com/user-attachments/assets/c64b4c0f-0080-43b7-b629-f55c7194cf5c)
 
-```bash
-ng test
-```
+### Controle de Serviços
+![Serviços](https://github.com/user-attachments/assets/c0fba5d3-f917-4dae-96cc-609a4503acaf)
 
-## Running end-to-end tests
+### Visão Financeira
+![Financeiro](https://github.com/user-attachments/assets/c61aeec9-e6b4-4a73-9930-046cf231a78a)
 
-For end-to-end (e2e) testing, run:
+## 📚 Documentação Completa
 
-```bash
-ng e2e
-```
+Para informações detalhadas sobre funcionalidades, arquitetura e guia de uso, consulte:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+**[📖 DOCUMENTAÇÃO_COMPLETA.md](./DOCUMENTACAO_COMPLETA.md)**
 
-## Additional Resources
+A documentação completa inclui:
+- Arquitetura detalhada do sistema
+- Guia completo de funcionalidades
+- Estrutura de dados e interfaces
+- Configurações e personalização
+- Screenshots detalhados de todas as telas
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🔧 Scripts Disponíveis
+
+| Comando | Descrição |
+|---------|-----------|
+| `npm start` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção |
+| `npm test` | Testes unitários |
+| `npm run watch` | Build em modo watch |
+
+## 🎯 Módulos do Sistema
+
+### 1. **Dashboard**
+- Perfil do usuário com avatar
+- Calendário de serviços interativo
+- Resumo financeiro mensal
+- Configurações personalizáveis
+
+### 2. **Controle de Serviços**
+- **Ordinários**: Escalas regulares 12x36
+- **RAS Voluntário**: R$ 65-85/h
+- **RAS Compulsório**: R$ 40-45/h
+- **Trocas**: Permutação entre policiais
+
+### 3. **Gestão Financeira**
+- Acompanhamento de valores
+- Sistema de metas pessoais
+- Status de pagamentos
+- Relatórios detalhados
+
+## 🎨 Sistema de Cores
+
+- 🔵 **Ordinário**: Azul
+- 🟢 **RAS Voluntário**: Verde
+- 🟠 **RAS Compulsório**: Laranja
+- 🟣 **Troca Ordinário**: Roxo
+- 🟡 **Troca RAS**: Magenta
+- 🔴 **Conflito**: Vermelho
+
+## 📞 Suporte
+
+**Polícia Militar de Santa Catarina**
+- 📧 suporte@pm.sc.gov.br
+- 📱 (48) 3665-7000
+
+## 📄 Licença
+
+© 2025 Polícia Militar de Santa Catarina. Todos os direitos reservados.
+
+---
+
+> **Nota**: Para desenvolvimento com Angular CLI, consulte a [documentação oficial](https://angular.dev/tools/cli).
